@@ -1,25 +1,28 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { env } from 'process';
+import { environment as env } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import {Game, APIResponse} from '../models'
+import { Game, APIResponse } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getGameList(
     ordering: string,
     search?: string
-  ): Observable<APIResponse<Game>>{
+  ): Observable<APIResponse<Game>> {
     let params = new HttpParams().set('ordering', ordering);
-    if(search){
-      let params = new HttpParams().set('ordering', ordering).set('search', search);
+    if (search) {
+      let params = new HttpParams()
+        .set('ordering', ordering)
+        .set('search', search);
     }
 
-    return this.http.get<APIResponse<Game>>(`${env.BASE_URL}/games`, params: params);
+    return this.http.get<APIResponse<Game>>(`${env.BASE_URL}/games`, {
+      params: params,
+    });
   }
 }
